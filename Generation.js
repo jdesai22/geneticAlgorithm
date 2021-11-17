@@ -54,6 +54,7 @@ class Generation {
         let sortedFitnessY = [];
 
 
+
         for (let i = 0; i < this.geneNum; i++) {
             finalFitnessX.push(this.genes[i].xFitness());
             sortedFitnessX.push(this.genes[i].xFitness());
@@ -65,6 +66,7 @@ class Generation {
         // orders from smallest to largest
         sortedFitnessX = sortedFitnessX.sort(function(a, b) {return a - b;});
         sortedFitnessY = sortedFitnessY.sort(function(a, b) {return a - b;});
+
 
         for (let i = 0; i < this.geneNum; i++) {
             for (let j = 0; j < this.geneNum; j++) {
@@ -82,10 +84,16 @@ class Generation {
             }
         }
 
+        // bug for later: sometimes same rankings. ex [0, 1, 1, 3, 4]
+
+        // console.log(rankingsY);
+
         for (let i = 0; i < this.geneNum; i++) {
             rankingsX[i] = 1 - rankingsX[i]/(this.geneNum-1);
             rankingsY[i] = 1 - rankingsY[i]/(this.geneNum-1);
         }
+
+        // console.log(finalFitnessY);
 
         let xBiases = [];
         let yBiases = [];
@@ -97,7 +105,7 @@ class Generation {
 
             for (let j = 0; j < this.geneNum; j++) {
                 sumMovesX += rankingsX[j] * this.genes[j].geneMoves[i][0];
-                sumMovesY += rankingsX[j] * this.genes[j].geneMoves[i][1];
+                sumMovesY += rankingsY[j] * this.genes[j].geneMoves[i][1];
             }
 
             let newBiasX = .5 + this.capScale(sumMovesX/(this.geneNum));
@@ -112,6 +120,63 @@ class Generation {
         return [xBiases, yBiases];
 
     }
+
+
+    // biasOneD(axis) {
+    //     let rankingsX = [];
+    //     let finalFitnessX = [];
+    //     let sortedFitnessX = [];
+    //
+    //
+    //     if (axis === 0) {
+    //         for (let i = 0; i < this.geneNum; i++) {
+    //             finalFitnessX.push(this.genes[i].xFitness());
+    //             sortedFitnessX.push(this.genes[i].xFitness());
+    //         }
+    //     } else if (axis === 1) {
+    //         for (let i = 0; i < this.geneNum; i++) {
+    //             finalFitnessX.push(this.genes[i].yFitness());
+    //             sortedFitnessX.push(this.genes[i].yFitness());
+    //         }
+    //     }
+    //
+    //
+    //
+    //     sortedFitnessX = sortedFitnessX.sort(function(a, b) {return a - b;});
+    //
+    //
+    //     for (let i = 0; i < this.geneNum; i++) {
+    //         for (let j = 0; j < this.geneNum; j++) {
+    //             if (finalFitnessX[i] === sortedFitnessX[j]) {
+    //                 rankingsX.push(j);
+    //                 break;
+    //             }
+    //         }
+    //     }
+    //
+    //     for (let i = 0; i < this.geneNum; i++) {
+    //         rankingsX[i] = 1 - rankingsX[i]/(this.geneNum-1);
+    //     }
+    //
+    //
+    //     let xBiases = [];
+    //
+    //     for (let i = 0; i < this.steps; i++) {
+    //         let sumMovesX = 0;
+    //
+    //
+    //         for (let j = 0; j < this.geneNum; j++) {
+    //             sumMovesX += rankingsX[j] * this.genes[j].geneMoves[i][axis];
+    //         }
+    //
+    //         let newBiasX = .5 + this.capScale(sumMovesX/(this.geneNum));
+    //
+    //         xBiases.push(newBiasX);
+    //     }
+    //
+    //     return xBiases;
+    //
+    // }
 
     capScale(num) {
         let newNum = 1 * num;

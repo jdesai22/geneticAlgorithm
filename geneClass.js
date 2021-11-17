@@ -31,11 +31,11 @@ class GeneClass {
 
     updatePosition(xBias, yBias) {
         if (!this.atBorder()) {
-            let newGene = [this.biasMove(xBias), this.biasMoveY(yBias)];
+            let newGene = [this.biasMove(xBias), this.biasMove(yBias)];
             this.geneMoves.push(newGene);
 
-            this.posX += newGene[0]
-            this.posY += newGene[1]
+            this.posX += newGene[0];
+            this.posY += newGene[1];
         }
     }
 
@@ -67,16 +67,6 @@ class GeneClass {
             return -1;
         } else {
             return 1;
-        }
-    }
-
-    biasMoveY(bias) {
-        let rand = Math.random();
-
-        if (rand >= bias) {
-            return 1;
-        } else {
-            return -1;
         }
     }
 
