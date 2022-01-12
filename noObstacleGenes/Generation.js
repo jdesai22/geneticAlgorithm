@@ -12,7 +12,7 @@ class Generation {
 
         this.genes = [];
         for (let i = 0; i < this.geneNum; i++) {
-            this.genes.push(new GeneClass(this.startPos, this.goalPos, biasX, biasY));
+            this.genes.push(new ConstantGene(this.startPos, this.goalPos));
         }
     }
 

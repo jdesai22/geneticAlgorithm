@@ -3,7 +3,7 @@ let ctx = canvas.getContext("2d")
 
 const radius = 10;
 
-class GeneClass {
+class ConstantGene {
 
     constructor(startPosition, goalPosition) {
         this.geneMoves = [];

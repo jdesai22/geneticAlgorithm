@@ -8,9 +8,8 @@
 //     "y" : canvas.height/3
 // }
 
-const geneNum = 100;
+const geneNum = 120;
 const gens = 50;
-
 
 
 function getMouse(evt) {
@@ -79,14 +78,16 @@ let goalPosition = {
     "y" : canvas.height/3
 };
 
+let obstacle = new Obstacle(canvas.width/2, canvas.height/3, canvas.width/2, 2*canvas.height/3-100);
 
 async function app() {
     let steps = Math.hypot(startPosition.x - goalPosition.x, startPosition.y - goalPosition.y);
 
-    steps += Math.floor(steps*(.1));
+    // steps += Math.floor(steps*(.1));
+
+    steps += Math.floor(steps*(1));
 
     drawPoint(goalPosition);
-
 
     let nextBias = [[], []];
 
@@ -104,7 +105,10 @@ async function app() {
         ctx.fillStyle = "black";
         drawPoint(goalPosition);
 
-        let gen = new Generation(geneNum, startPosition, goalPosition, steps, nextBias[0], nextBias[1]);
+        obstacle.drawObstacle();
+        // let gen = new Generation(geneNum, startPosition, goalPosition, steps, nextBias[0], nextBias[1]);
+        let gen = new ComplexGeneration(geneNum, startPosition, goalPosition, steps, nextBias[0], nextBias[1], obstacle);
+
 
         await gen.drawGeneration();
 
@@ -145,6 +149,7 @@ let update = function () {
             case 0:
                 // set goal position
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
+                obstacle.drawObstacle();
                 interval1 = setInterval(function () {
                     ctx.fillText("Set Goal Position", 5, 40);
                     ctx.fillText("Next Step: Set Start Position", 5, canvas.height - 40);
@@ -155,6 +160,7 @@ let update = function () {
                 canvas.removeEventListener("mousedown", setGoalPosition);
                 clearInterval(interval1);
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
+                obstacle.drawObstacle();
                 drawPoint(goalPosition);
                 interval2 = setInterval(function () {
                     ctx.fillText("Set Start Position", 5, 40);
@@ -183,5 +189,27 @@ let loadHandler = function (evt) {
 
 }
 
+let loadHandlerTest = function (evt) {
+    // let test = new Obstacle(20, 20, 100, 100);
+    //
+    // test.drawObstacle();
+    goalPosition = {
+        'x' : canvas.width/2 + 200,
+        'y' : canvas.height/2
+    }
+
+    startPosition = {
+        'x' : canvas.width/2 - 200,
+        'y' : canvas.height/2
+    }
+
+    ctx.font = "30px Arial";
+    app();
+
+}
+
+
+
 // window.addEventListener("load", loadHandler)
+// onload = loadHandlerTest;
 onload = loadHandler;
