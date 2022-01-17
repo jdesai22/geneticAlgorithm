@@ -108,6 +108,7 @@ async function app() {
         obstacle.drawObstacle();
         // let gen = new Generation(geneNum, startPosition, goalPosition, steps, nextBias[0], nextBias[1]);
         let gen = new ComplexGeneration(geneNum, startPosition, goalPosition, steps, nextBias[0], nextBias[1], obstacle);
+        // let gen = new Generation(geneNum, startPosition, goalPosition, steps, nextBias[0], nextBias[1], obstacle);
 
 
         await gen.drawGeneration();
